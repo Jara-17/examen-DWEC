@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../shared/services/auth.service';
 import { MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ import { MessageService } from 'primeng/api';
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    CardModule
+    CardModule,
+    CommonModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
