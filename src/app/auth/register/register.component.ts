@@ -4,9 +4,9 @@ import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
-import { AuthService } from '../../shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../shared/services/toast.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',

@@ -42,6 +42,4 @@ export class ToastService {
   clear() {
     this.messageService.clear();
   }
-
-  constructor() { }
 }
