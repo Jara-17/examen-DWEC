@@ -6,6 +6,7 @@ import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { apiKeyInterceptor } from './core/interceptors/api-key.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,10 +16,11 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: Aura
-      }
+      },
     }),
     provideHttpClient(
       withInterceptors([apiKeyInterceptor])
-    )
+    ),
+    MessageService
   ]
 };

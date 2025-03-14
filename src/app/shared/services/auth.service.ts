@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { LoginDto, RegisterDto } from '../../core/models/auth';
@@ -11,25 +11,38 @@ import { AuthResponse } from '../../core/models/apiResponse';
 export class AuthService {
   private http = inject(HttpClient);
   private readonly TOKEN_KEY = 'token';
-  apiUrl = environment.apiUrl;
-  apiKey = environment.apiKey
+  private apiUrl = environment.apiUrl;
+  private apiKey = environment.apiKey;
+
+  private get headers() {
+    return new HttpHeaders({
+      'apikey': this.apiKey,
+      'Content-Type': 'application/json'
+    });
+  }
 
   login(credentials: LoginDto): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials)
-      .pipe(
-        tap(response => {
-          localStorage.setItem(this.TOKEN_KEY, response.access_token);
-        })
-      );
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/auth/v1/token?grant_type=password`,
+      credentials,
+      { headers: this.headers }
+    ).pipe(
+      tap(response => {
+        localStorage.setItem(this.TOKEN_KEY, response.access_token);
+      })
+    );
   }
 
   register(user: RegisterDto): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, user)
-      .pipe(
-        tap(response => {
-          localStorage.setItem(this.TOKEN_KEY, response.access_token);
-        })
-      );
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/auth/v1/signup`,
+      user,
+      { headers: this.headers }
+    ).pipe(
+      tap(response => {
+        localStorage.setItem(this.TOKEN_KEY, response.access_token);
+      })
+    );
   }
 
   getToken(): string | null {

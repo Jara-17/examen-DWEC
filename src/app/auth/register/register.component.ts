@@ -5,8 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../shared/services/auth.service';
-import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private messageService = inject(MessageService);
+  private toast = inject(ToastService);
 
   registerForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -38,19 +38,11 @@ export class RegisterComponent {
       this.authService.register(this.registerForm.value)
         .subscribe({
           next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Se ha registrado correctamente!'
-            });
+            this.toast.showSuccess("Se ha registrado correctamente", "Registro Exitoso")
             this.router.navigate(['/dashboard']);
           },
           error: (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: error.message || 'Registration failed. Please try again.'
-            });
+            this.toast.showError(error.message, "Error")
           }
         });
     }
